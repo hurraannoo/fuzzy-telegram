@@ -1,0 +1,31 @@
+local _, F = ...
+-- Small starter glossary authored for ForeverLearner. Extend with reviewed names.
+-- General words are not automatically classified as proper names.
+F.Glossary = {
+    ["泽风岛"] = {"Zé fēng dǎo", "Zephras Isle", "Zephras Isle — zone (Forever).", "name"},
+    ["乌萨拉"] = {"Wū sà lā", "ursera", "ursera — creature name (Forever); pinyin is a reading aid.", "name"},
+    ["请"] = {"qǐng", "please", "please; to invite; to ask. 'Please' preferred in quest instructions.", "word"},
+    ["請"] = {"qǐng", "please", "please; to invite; to ask. 'Please' preferred in quest instructions.", "word"},
+    ["你的"] = {"nǐ de", "your", "your (你 + 的).", "word"},
+    ["我的"] = {"wǒ de", "my", "my (我 + 的).", "word"},
+    ["暴风城"] = {"Bàofēng Chéng", "Stormwind", "Stormwind — city (WoW).", "name"},
+    ["暴風城"] = {"Bàofēng Chéng", "Stormwind", "Stormwind — city (WoW).", "name"},
+    ["奥格瑞玛"] = {"Àogéruìmǎ", "Orgrimmar", "Orgrimmar — city (WoW).", "name"},
+    ["奧格瑞瑪"] = {"Àogéruìmǎ", "Orgrimmar", "Orgrimmar — city (WoW).", "name"},
+    ["铁炉堡"] = {"Tiělú Bǎo", "Ironforge", "Ironforge — city (WoW).", "name"},
+    ["鐵爐堡"] = {"Tiělú Bǎo", "Ironforge", "Ironforge — city (WoW).", "name"},
+    ["艾泽拉斯"] = {"Àizélāsī", "Azeroth", "Azeroth — world (WoW).", "name"},
+    ["艾澤拉斯"] = {"Àizélāsī", "Azeroth", "Azeroth — world (WoW).", "name"},
+    ["艾尔文森林"] = {"Ài'ěrwén Sēnlín", "Elwynn Forest", "Elwynn Forest — zone (WoW).", "name"},
+    ["艾爾文森林"] = {"Ài'ěrwén Sēnlín", "Elwynn Forest", "Elwynn Forest — zone (WoW).", "name"},
+    ["任务"] = {"rèn wu", "quest", "quest; task (WoW reading preference).", "term"},
+    ["任務"] = {"rèn wu", "quest", "quest; task (WoW reading preference).", "term"},
+    ["副本"] = {"fù běn", "dungeon / instance", "dungeon or instance (gaming); copy (general usage).", "term"},
+    ["组我"] = {"zǔ wǒ", "invite me", "invite me to the group (chat shorthand).", "term"},
+    ["組我"] = {"zǔ wǒ", "invite me", "invite me to the group (chat shorthand).", "term"},
+    ["开组"] = {"kāi zǔ", "forming a group", "forming a group (chat shorthand).", "term"},
+    ["来奶"] = {"lái nǎi", "need a healer", "recruiting a healer (chat shorthand).", "term"},
+    ["来T"] = {"lái T", "need a tank", "recruiting a tank (chat shorthand).", "term"},
+    ["满了"] = {"mǎn le", "full", "the group is full (chat); full (general usage).", "term"},
+    ["满人"] = {"mǎn rén", "group full", "group is full (gaming-context preference).", "term"},
+}

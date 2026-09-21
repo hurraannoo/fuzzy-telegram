@@ -1,0 +1,29 @@
+{
+  "repository": "https://github.com/cmangos/classic-db",
+  "revision": "22b51464f1625f6ef6275771de1f5466c6f5d19e",
+  "scope": "Base Classic 1.12 snapshot, not subsequent updates or Forever custom data",
+  "counts": {
+    "npc": {
+      "records": 10384,
+      "bilingual": 10359
+    },
+    "item": {
+      "records": 17718,
+      "bilingual": 14834
+    }
+  },
+  "sources": {
+    "classic-base.sql.gz": {
+      "path": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+      "sha": "0a77f5230a3d5d6db968678203dfe3b30c34b8a9"
+    },
+    "chinese-creatures.sql": {
+      "path": "locales/Chinese/locales_creature.sql",
+      "sha": "471bdcf1c391dc3ca2c98f1c8c264bcb8b3317ef"
+    },
+    "chinese-items.sql": {
+      "path": "locales/Chinese/locales_item.sql",
+      "sha": "6e9cfa931c91e7c1e73c8bbdf735e0a184540332"
+    }
+  }
+}

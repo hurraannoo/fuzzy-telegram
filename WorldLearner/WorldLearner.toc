@@ -1,0 +1,65 @@
+## Interface: 16001
+## Title: WorldLearner
+## Notes: Shift-hover Chinese, pinyin and English for creatures and items.
+## Author: Jordon
+## Version: 0.1.0
+## SavedVariables: WorldLearnerDB
+
+Core.lua
+Data/Dictionary01.lua
+Data/Dictionary02.lua
+Data/Dictionary03.lua
+Data/Dictionary04.lua
+Data/Dictionary05.lua
+Data/Dictionary06.lua
+Data/Dictionary07.lua
+Data/Dictionary08.lua
+Data/Dictionary09.lua
+Data/Dictionary10.lua
+Data/Dictionary11.lua
+Data/Dictionary12.lua
+Data/Dictionary13.lua
+Data/Dictionary14.lua
+Data/Dictionary15.lua
+Data/Dictionary16.lua
+Data/Dictionary17.lua
+Data/Dictionary18.lua
+Data/Dictionary19.lua
+Data/Dictionary20.lua
+Data/Dictionary21.lua
+Data/Dictionary22.lua
+Data/Dictionary23.lua
+Data/Dictionary24.lua
+Data/Dictionary25.lua
+Data/Dictionary26.lua
+Data/Dictionary27.lua
+Data/Dictionary28.lua
+Data/Dictionary29.lua
+Data/Dictionary30.lua
+Data/Dictionary31.lua
+Data/Dictionary32.lua
+Data/Dictionary33.lua
+Data/Dictionary34.lua
+Data/Dictionary35.lua
+Data/Dictionary36.lua
+Data/Dictionary37.lua
+Data/Dictionary38.lua
+Data/Dictionary39.lua
+Data/Dictionary40.lua
+Data/Dictionary41.lua
+Data/Dictionary42.lua
+Data/Dictionary43.lua
+Data/Dictionary44.lua
+Data/Dictionary45.lua
+Data/Dictionary46.lua
+Data/Dictionary47.lua
+Data/Dictionary48.lua
+Data/Dictionary49.lua
+Data/Dictionary50.lua
+Data/Entities.lua
+Glossary.lua
+Reader.lua
+UI.lua
+Settings.lua
+Minimap.lua
+Hover.lua
