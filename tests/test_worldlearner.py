@@ -17,6 +17,7 @@ class WorldLearnerTests(unittest.TestCase):
         cls.lua.execute('for _,f in ipairs(frames) do if f.events.ADDON_LOADED then driver=f end end; driver.scripts.OnEvent(driver,"ADDON_LOADED","WorldLearner")')
 
     def setUp(self):
+        self.lua.execute('now=100; W.lastTick=nil; unitGuids=nil; C_NamePlate=nil; W.expiredKey=nil')
         self.lua.execute('W.Reset(); W.HideCard(); GameTooltip:Hide(); GameTooltip.itemLink=nil; GameTooltip.itemName=nil; GameTooltip.unit=nil; GameTooltip.unitName=nil; shift=false; alt=false; ctrl=false; combat=false; player=false; W.card.mouseOver=false')
 
     def check(self,code): self.lua.execute(code)
@@ -101,5 +102,62 @@ class WorldLearnerTests(unittest.TestCase):
             for _,b in ipairs(W.tokens) do
                 if b:IsShown() then assert(b:GetHeight()>=b.label:GetStringHeight()) end
             end''')
+
+    def test_always_fade_and_rearm(self):
+        self.check('''W.SetOption("modifier","ALWAYS"); W.SetOption("fadeAfter","5")
+            GameTooltip.itemName="Worn Shortsword"; GameTooltip.itemLink="item:25:0"; GameTooltip:Show()
+            W.Tick(); now=105; W.Tick(); assert(W.card:IsShown() and W.card.alpha==W.db.opacity)
+            now=105.3; W.Tick(); assert(W.card.alpha>0 and W.card.alpha<W.db.opacity)
+            now=105.7; W.Tick(); assert(not W.card:IsShown())
+            now=107; W.Tick(); assert(not W.card:IsShown())
+            GameTooltip:Hide(); W.Tick(); GameTooltip:Show(); W.Tick(); assert(W.card:IsShown())
+            W.SetOption("fadeAfter","10"); now=116; W.Tick(); assert(W.card:IsShown())
+            now=117.7; W.Tick(); assert(not W.card:IsShown())''')
+
+    def test_reading_pauses_fade_and_modifier_never_fades(self):
+        self.check('''W.SetOption("modifier","ALWAYS"); W.SetOption("fadeAfter","5")
+            GameTooltip.itemName="Worn Shortsword"; GameTooltip.itemLink="item:25:0"; GameTooltip:Show()
+            W.Tick(); now=104; W.Tick(); W.card.mouseOver=true
+            now=120; W.Tick(); assert(W.card.alpha==W.db.opacity)
+            W.card.mouseOver=false; now=120.5; W.Tick(); assert(W.card:IsShown())
+            now=122; W.Tick(); assert(not W.card:IsShown())
+            W.SetOption("modifier","SHIFT"); shift=true; W.Tick()
+            now=150; W.Tick(); assert(W.card:IsShown())''')
+
+    def test_modern_and_clean_card(self):
+        self.check('''W.SetOption("theme","MODERN"); W.Preview()
+            assert(W.card.backdrop.edgeSize==1)
+            for _,f in ipairs(frames) do
+                if f.parent==W.card then
+                    assert(f.text~="WorldLearner")
+                    assert(not (f.text or ""):find("Hover Chinese words"))
+                end
+            end
+            assert(not W.status:IsShown())
+            W.SetOption("theme","CLASSIC"); assert(W.card.backdrop.edgeSize==24)''')
+
+    def test_nameplate_tracking_and_recycling(self):
+        self.check('''local plate=CreateFrame("Frame"); plate.namePlateUnitToken="nameplate1"
+            local first="Creature-0-1-0-1-68-1"; local second="Creature-0-1-0-1-68-2"
+            unitGuids={mouseover=first,nameplate1=first}
+            C_NamePlate={GetNamePlateForUnit=function() return plate end,GetNamePlates=function() return {plate} end}
+            W.SetOption("anchor","NAMEPLATE"); shift=true
+            GameTooltip.unit="mouseover"; GameTooltip.unitName="Stormwind City Guard"; GameTooltip:Show()
+            W.Tick(); assert(W.card.point[2]==plate)
+            W.card.mouseOver=true; W.Tick(); assert(W.followPlate==nil and W.card.point[2]==UIParent)
+            W.card.mouseOver=false; W.Tick(); assert(W.followPlate==plate)
+            GameTooltip:Hide(); unitGuids.mouseover=second; unitGuids.nameplate1=second
+            W.Tick(); assert(W.followPlate==nil and W.current.guid==first)
+            GameTooltip:Show(); W.Tick(); assert(W.current.guid==second and W.followPlate==plate)
+            W.pin.scripts.OnClick(); assert(W.followPlate==nil)
+            W.Tick(); assert(W.card.point[2]==UIParent)''')
+
+    def test_tracking_without_nameplate_and_item_fallback(self):
+        self.check('''W.SetOption("anchor","NAMEPLATE"); shift=true
+            GameTooltip.unit="mouseover"; GameTooltip.unitName="Stormwind City Guard"
+            guid="Creature-0-1-0-1-68-1"; GameTooltip:Show(); W.Tick()
+            assert(W.followPlate==nil and W.card.point[2]==UIParent)
+            GameTooltip.unit=nil; GameTooltip.itemName="Worn Shortsword"; GameTooltip.itemLink="item:25:0"
+            W.Tick(); assert(W.current.kind=="item" and W.card.point[2]==UIParent)''')
 
 if __name__=='__main__': unittest.main(verbosity=2)

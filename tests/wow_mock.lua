@@ -6,7 +6,7 @@ function IsAltKeyDown() return alt end
 function IsControlKeyDown() return ctrl end
 function InCombatLockdown() return combat end
 function UnitIsPlayer() return player or false end
-function UnitGUID() return guid end
+function UnitGUID(unit) return unitGuids and unitGuids[unit] or guid end
 function GetCursorPosition() return 500,600 end
 function GetTime() return now or 100 end
 local M={}
@@ -52,9 +52,11 @@ function M:GetUnit() return self.unitName,self.unit end
 function M:ClearLines() self.lines={} end
 function M:AddLine(text) self.lines=self.lines or {}; table.insert(self.lines,text) end
 function M:NumLines() return #(self.lines or {}) end
+function M:SetAlpha(value) self.alpha=value end
+function M:SetBackdrop(value) self.backdrop=value end
 for _,key in ipairs({"SetAllPoints","SetJustifyH","SetFrameStrata","SetClampedToScreen",
     "EnableMouse","SetMovable","RegisterForDrag","RegisterForClicks","StartMoving",
-    "StopMovingOrSizing","SetOwner","SetBackdrop","SetBackdropColor","SetAlpha",
+    "StopMovingOrSizing","SetOwner","SetBackdropColor","SetBackdropBorderColor",
     "SetFrameLevel","SetDesaturated","SetTexCoord","SetMask","SetHighlightTexture"}) do
     M[key]=function() end
 end

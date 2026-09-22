@@ -15,7 +15,14 @@ function W.Candidate()
         local ok,native,unit=pcall(tip.GetUnit,tip)
         if ok and W.IsReadable(unit) and not UnitIsPlayer(unit) then
             local id=W.NpcID(UnitGUID(unit))
-            if id then return W.Resolve("npc",id,native) end
+            if id then
+                local record=W.Resolve("npc",id,native)
+                if record then
+                    record.unit,record.guid=unit,UnitGUID(unit)
+                    record.key=record.key..":"..record.guid
+                end
+                return record
+            end
         end
     end
 end
@@ -25,28 +32,57 @@ function W.HideCard()
     if W.wordTip then W.wordTip:Hide() end
 end
 function W.Tick()
+    local now=GetTime()
+    local dt=W.lastTick and math.max(0,now-W.lastTick) or 0
+    W.lastTick=now
     if not W.db.enabled or (not W.db.combat and InCombatLockdown and InCombatLockdown()) then
         W.HideCard(); return
     end
-    if W.preview or W.pinned then return end
+    if W.preview or W.pinned then
+        W.shownAt=now
+        if W.card then W.card:SetAlpha(W.db.opacity) end
+        return
+    end
     if not W.Active() then W.HideCard(); return end
-    if overCard() then return end
+    if overCard() then
+        W.shownAt=(W.shownAt or now)+dt
+        W.card:SetAlpha(W.db.opacity); W.FreezePosition(); return
+    end
     local candidate=W.Candidate()
+    if not candidate or candidate.key~=W.expiredKey then W.expiredKey=nil end
+    if candidate and candidate.key==W.expiredKey then return end
     if candidate then
         if not W.current or W.current.key~=candidate.key then
             W.current=candidate
+            W.shownAt=now
             W.Render(candidate,true)
         end
     elseif not W.db.sticky then W.HideCard() end
+    if W.current then
+        W.TrackPlate()
+        local delay=W.db.modifier=="ALWAYS" and tonumber(W.db.fadeAfter)
+        if delay then
+            local progress=math.max(0,(now-(W.shownAt or now)-delay)/0.6)
+            W.card:SetAlpha(W.db.opacity*(1-math.min(1,progress)))
+            if progress>=1 then
+                W.expiredKey=candidate and candidate.key or nil
+                W.HideCard()
+            end
+        end
+    end
 end
 function W.OptionsChanged()
+    W.expiredKey=nil; W.shownAt=GetTime()
     if W.UpdateMinimap then W.UpdateMinimap() end
     if W.RefreshSettings then W.RefreshSettings() end
     if not W.db.enabled or (W.current and ((W.current.kind=="npc" and not W.db.npcs)
         or (W.current.kind=="item" and not W.db.items))) then W.HideCard(); return end
     if W.current then
         local record=W.Resolve(W.current.kind,W.current.id,W.current.native)
-        if record then W.current=record; W.Render(record,true) else W.HideCard() end
+        if record then
+            record.unit,record.guid,record.key=W.current.unit,W.current.guid,W.current.key
+            W.current=record; W.Render(record,true)
+        else W.HideCard() end
     end
 end
 local driver=CreateFrame("Frame")

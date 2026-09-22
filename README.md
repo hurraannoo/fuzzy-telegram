@@ -2,7 +2,7 @@
 
 Hold **Shift** over a creature/NPC or an inventory item to read its **Chinese name → pinyin → English name**. Move onto the Chinese words for dictionary definitions. A small circular book button on the minimap opens a Classic-style settings menu.
 
-Version **0.1.0** is a first playable test build for WoW Forever / Classic interface **16001**, matching ForeverLearner's target client. Automated Lua 5.1 checks pass; actual client appearance, API compatibility and performance still need in-game verification.
+Version **0.2.0** is a test build for WoW Forever / Classic interface **16001**, matching ForeverLearner's target client. Automated Lua 5.1 checks pass; actual client appearance, API compatibility and performance still need in-game verification.
 
 ## Install
 
@@ -15,7 +15,7 @@ WorldLearner works independently. You can keep ForeverLearner installed for ques
 - Hold Shift over a creature/NPC or an item tooltip. This includes bag items and other item tooltips exposed through the main game tooltip.
 - Keep Shift held as you move onto the new reading panel. Hover a Chinese word for its pinyin and dictionary meanings.
 - Release Shift to dismiss; **Pin** keeps the panel open after release. Close with X or Escape.
-- The panel stays still while you read. Drag its title bar to set a fixed position.
+- The panel stays still while you read. Drag its blank top edge to set a fixed position.
 - Left-click the minimap button for settings; right-click to toggle the addon. Drag it around the minimap's rim.
 
 Native Shift actions, such as equipment comparison, are left intact. Choose Alt or Ctrl in the menu if preferred. Names only are translated in this release, not item stats, effects, full descriptions or NPC dialogue. Player names and world objects such as chests are not covered.
@@ -24,14 +24,22 @@ Native Shift actions, such as equipment comparison, are left intact. Choose Alt 
 
 | Tab | Options |
 | --- | --- |
-| Hover | Enable addon; NPCs/creatures; items; combat visibility; keep panel open; Shift / Alt / Ctrl / Always activation |
+| Hover | Enable addon; NPCs/creatures; items; combat visibility; keep panel open; Shift / Alt / Ctrl / Always activation; Always-mode fade after 5 or 10 seconds (or Never) |
 | Languages | Chinese, pinyin and English independently; word hover; show names with missing translations |
-| Panel | Separate language sizes; width; opacity; initial-cursor or fixed position; movement lock |
+| Panel | Separate language sizes; width; opacity; Classic / Modern style; initial-cursor, fixed or above-creature position; movement lock |
 | Minimap | Show/hide button; movement lock; position around minimap |
 
-Preview, Reset settings and Done are available on every tab. Settings persist between sessions. Reset affects only WorldLearner settings. At least one language remains enabled. With Always activation and sticky panels, the last panel stays until replaced or closed; Pin freezes it even when hovering another entity.
+Preview, Reset settings and Done are available on every tab. Settings persist between sessions. Reset affects only WorldLearner settings. At least one language remains enabled. With Always activation, choose Never, 5 seconds or 10 seconds before a short fade. Hovering the panel pauses the timer; Pin prevents fading. Once faded, the same hovered entity stays dismissed until you move away and back. With fading off and sticky panels enabled, the last panel stays until replaced or closed.
 
 Commands: `/wl` (settings), `/wl preview`, `/wl hide`, `/wl minimap` (toggle button). `/worldlearner` is an alias.
+
+## Cleaner hover panel and tracking
+
+The reading box has no addon title, instructional footer or routine database-source label. Missing-data warnings remain. The Modern style uses ForeverLearner's dark blue-grey background, a fine grey border and minimal controls; the minimap settings menu keeps its Classic styling.
+
+Panel → Position → **Above creature** follows the hovered creature's visible nameplate. It pauses movement while the mouse is over the reading box, and Pin freezes it. It checks the creature GUID so a recycled nameplate cannot intentionally attach the text to another boar. Items and creatures without a usable nameplate start near the cursor; if a tracked plate disappears, the box stops at its last available position. Enable the relevant friendly/enemy nameplates in WoW for tracking. The addon does not change those game settings.
+
+This follows a nameplate, not the 3D model or its selection outline. It requires the client to expose the nameplate API, and needs testing in Forever. See the [Blizzard nameplate implementation](https://github.com/Gethe/wow-ui-source/blob/live/Interface/AddOns/Blizzard_NamePlates/Blizzard_NamePlates.lua) for the API used.
 
 ## Coverage and limitations
 

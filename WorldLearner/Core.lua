@@ -5,12 +5,13 @@ W.defaults = {
     enabled=true, npcs=true, items=true, combat=true, wordHover=true,
     chinese=true, pinyin=true, english=true, showMissing=true,
     sticky=true, locked=false, minimap=true, minimapLocked=false,
-    modifier="SHIFT", anchor="CURSOR", chineseSize=22, pinyinSize=16,
+    modifier="SHIFT", anchor="CURSOR", theme="CLASSIC", fadeAfter="OFF", chineseSize=22, pinyinSize=16,
     englishSize=16, width=340, opacity=0.96, minimapAngle=220,
 }
 W.bounds = {chineseSize={12,32},pinyinSize={10,26},englishSize={10,26},
     width={260,540},opacity={0.4,1},minimapAngle={0,360},x={-4000,4000},y={-4000,4000}}
-local choices = {modifier={SHIFT=true,ALT=true,CTRL=true,ALWAYS=true},anchor={CURSOR=true,FIXED=true}}
+local choices = {modifier={SHIFT=true,ALT=true,CTRL=true,ALWAYS=true},anchor={CURSOR=true,FIXED=true,NAMEPLATE=true},
+    theme={CLASSIC=true,MODERN=true},fadeAfter={OFF=true,["5"]=true,["10"]=true}}
 function W.IsReadable(v)
     if type(issecretvalue)=="function" and issecretvalue(v) then return false end
     return type(v)=="string"

@@ -1,10 +1,12 @@
-# Validation — 0.1.0
+# Validation — 0.2.0
 
-Automated suite: Python unittest with Lupa 2.8 / Lua 5.1 and explicit WoW API doubles. All addon Lua and all dictionary/data chunks load in manifest order. **10 tests pass.**
+Automated suite: Python unittest with Lupa 2.8 / Lua 5.1 and explicit WoW API doubles. All addon Lua and all dictionary/data chunks load in manifest order. **15 tests pass.**
 
 Checks cover bilingual records and segmentation, modern creature/vehicle GUID and item-link parsing, Shift activation after a tooltip already exists, moving to the sticky panel, release dismissal, item/NPC category controls, player exclusion, reused/missing IDs, setting validation and persistence, alternative modifiers, combat suppression, pin/unpin, nonsticky dismissal, word hover, minimap/menu actions, and text-size extremes with estimated font metrics.
 
 Data sources are checked against pinned Git blob hashes before extraction. Both TOCs use interface 16001, matching the existing ForeverLearner target. Native game tooltips are read, not rewritten; no protected targeting/inventory actions are performed.
+
+Additional checks cover both fade delays, no repeated reopening after expiry, rearming after leaving, pausing while reading, modifier-mode exemption, clean panel text, theme switching, nameplate tracking, recycled plate GUID checks, pinning, and fallback when no nameplate is available.
 
 ## Still needs testing in the actual client
 
@@ -20,3 +22,6 @@ This build has not been loaded in WoW. The UI doubles do not validate real rende
 8. Drag/lock/hide the minimap button, reopen with `/wl`, restore with `/wl minimap`, and `/reload` to verify saved options.
 
 Minimap placement assumes the native circular Classic minimap. Custom square minimap addons may need an adapter. Loading both addons currently duplicates dictionary memory.
+
+9. Set Always with each fade delay, read words during fading, leave/re-enter, and check Pin.
+10. Switch Classic/Modern and use Above creature with visible friendly/enemy nameplates; move the creature/camera, hover words, switch between two identical creatures, and hide nameplates.

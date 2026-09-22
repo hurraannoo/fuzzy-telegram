@@ -2,7 +2,7 @@
 ## Title: WorldLearner
 ## Notes: Shift-hover Chinese, pinyin and English for creatures and items.
 ## Author: Jordon
-## Version: 0.1.0
+## Version: 0.2.0
 ## SavedVariables: WorldLearnerDB
 
 Core.lua
